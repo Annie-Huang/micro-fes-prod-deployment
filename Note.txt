@@ -1,0 +1,26 @@
+Module Federation Into Production (https://www.youtube.com/watch?v=MU8_LP8R_ZI)
+
+https://github.com/jherr/prod-test-header
+https://github.com/jherr/prod-test-consumer/tree/main
+
+-------------------------------------------------------------------
+
+Prod deployment:
+--------------------------------
+prod-test-header/webpack.config.js:
+  output: {
+    publicPath:
+      argv.mode === "development"
+        ? "http://localhost:8080/"
+        : "https://prod-test-header.vercel.app/",
+  },
+prod-test-consumer/webpack.config.js:
+  output: {
+    publicPath:
+      argv.mode === "development"
+        ? "http://localhost:8081/"
+        : "https://prod-test-consumer.vercel.app/",
+  },
+  remotes: {
+    header: "header@https://prod-test-header.vercel.app/remoteEntry.js",
+  },
